@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828183304) do
+ActiveRecord::Schema.define(version: 20170831023659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20170828183304) do
   end
 
   create_table "media", force: :cascade do |t|
-    t.bigint "user_id_id"
-    t.bigint "article_id_id"
+    t.bigint "user_id"
+    t.bigint "article_id"
     t.string "url"
     t.string "title"
     t.text "caption"
@@ -70,8 +70,12 @@ ActiveRecord::Schema.define(version: 20170828183304) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["article_id_id"], name: "index_media_on_article_id_id"
-    t.index ["user_id_id"], name: "index_media_on_user_id_id"
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.integer "file_file_size"
+    t.datetime "file_updated_at"
+    t.index ["article_id"], name: "index_media_on_article_id"
+    t.index ["user_id"], name: "index_media_on_user_id"
   end
 
   create_table "replies", force: :cascade do |t|
@@ -130,13 +134,14 @@ ActiveRecord::Schema.define(version: 20170828183304) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "thumbnail"
-    t.string "slug"
     t.string "last_name"
+    t.string "slug"
     t.string "description"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "articles", "sections"

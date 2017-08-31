@@ -52,4 +52,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Turns snake_case into camelCase
 gem "olive_branch"
 # OmniAuth
+gem 'paperclip'
 gem 'omniauth-github'
