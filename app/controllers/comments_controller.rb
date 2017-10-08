@@ -36,27 +36,34 @@ class CommentsController < ApplicationController
 
   # POST /comments
   def create
-    @comment = Comment.new(comment_params)
-
-    if @comment.save
-      render json: @comment, status: :created, location: @comment
-    else
-      render json: @comment.errors, status: :unprocessable_entity
+    if user_signed_in?
+      user_id = current_user.id
+      @comment = Comment.new(comment_params)
+      if @comment.save
+        render json: @comment, status: :created, location: @comment
+      else
+        render json: @comment.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /comments/1
   def update
-    if @comment.update(comment_params)
-      render json: @comment
-    else
-      render json: @comment.errors, status: :unprocessable_entity
+    if current_user.id == @comment.user_id
+      user_id = current_user.id
+      if @comment.update(comment_params)
+        render json: @comment
+      else
+        render json: @comment.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /comments/1
   def destroy
-    @comment.destroy
+    if current_user.id == @comment.user_id
+      @comment.destroy
+    end
   end
 
   private

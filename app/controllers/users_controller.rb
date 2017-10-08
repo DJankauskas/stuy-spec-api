@@ -10,7 +10,9 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @user
+    if current_user.id == @user.id
+      render json: @user
+    end
   end
 
   # POST /users
