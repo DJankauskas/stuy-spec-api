@@ -32,31 +32,43 @@ class ArticlesController < ApplicationController
 
   # POST /articles
   def create
-    @section = Section.friendly.find(params[:section_id])
-    # Can't let people publish by default
-    @article = @section.articles.build(
-      article_params.merge(is_published: false)
-    )
+    if current_user.security_level >= 2
+      if current_user.security_level == 2
+        params[:is_visible] = false
+      end
+      @section = Section.friendly.find(params[:section_id])
+      # Can't let people publish by default
+      @article = @section.articles.build(
+        article_params.merge(is_published: false)
+      )
 
-   if @article.save
-      render json: @article, status: :created, location: @article
-   else
-      render json: @article.errors, status: :unprocessable_entity
-   end
+      if @article.save
+        render json: @article, status: :created, location: @article
+      else
+        render json: @article.errors, status: :unprocessable_entity
+      end
+    end
   end
 
   # PATCH/PUT /articles/1
   def update
-    if @article.update(article_params)
-      render json: @article
-    else
-      render json: @article.errors, status: :unprocessable_entity
+    if current_user.security_level >= 2
+      if current_user.security_level == 2
+        params[:is_visible] = false
+      end
+      if @article.update(article_params)
+        render json: @article
+      else
+        render json: @article.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /articles/1
   def destroy
-    @article.destroy
+    if current_user.security_level == 3
+      @article.destroy
+    end
   end
 
   private
@@ -67,7 +79,7 @@ class ArticlesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def article_params
-      params.require(:article).permit(:title, :slug, :content, :volume, :issue, :is_published, :section_id, :summary, :rank)
+      params.require(:article).permit(:title, :slug, :content, :volume, :issue, :is_published, :section_id, :summary, :rank, :is_visible)
     end
     def find_combined_rank (article)
       return article.rank + Section.friendly.find(article.section_id).rank * 1.5

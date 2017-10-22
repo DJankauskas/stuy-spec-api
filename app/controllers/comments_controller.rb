@@ -50,7 +50,7 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if current_user.id == @comment.user_id
-      user_id = current_user.id
+      params[:user_id] = current_user.id
       if @comment.update(comment_params)
         render json: @comment
       else
@@ -61,7 +61,7 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
-    if current_user.id == @comment.user_id
+    if current_user.id == @comment.user_id or current_user.security_level == 3
       @comment.destroy
     end
   end

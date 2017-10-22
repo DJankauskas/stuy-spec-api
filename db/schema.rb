@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915032724) do
+ActiveRecord::Schema.define(version: 20171022165004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170915032724) do
     t.integer "rank", default: 1
     t.string "summary"
     t.string "outquotes", default: [], array: true
+    t.boolean "is_visible"
     t.index ["section_id"], name: "index_articles_on_section_id"
   end
 
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(version: 20170915032724) do
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.integer "rank", default: 1
+    t.boolean "security_level"
   end
 
   create_table "user_roles", force: :cascade do |t|
@@ -125,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170915032724) do
     t.string "last_name"
     t.string "slug"
     t.string "description"
+    t.integer "security_level"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

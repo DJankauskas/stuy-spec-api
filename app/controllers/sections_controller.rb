@@ -15,27 +15,39 @@ class SectionsController < ApplicationController
 
   # POST /sections
   def create
-    @section = Section.new(section_params)
+    if current_user.security_level >= 2
+      if current_user.security_level == 2
+        params[:is_visible] = false
+      end
+      @section = Section.new(section_params)
 
-    if @section.save
-      render json: @section, status: :created, location: @section
-    else
-      render json: @section.errors, status: :unprocessable_entity
+      if @section.save
+        render json: @section, status: :created, location: @section
+      else
+        render json: @section.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /sections/1
   def update
-    if @section.update(section_params)
-      render json: @section
-    else
-      render json: @section.errors, status: :unprocessable_entity
+    if current_user.security_level >= 2
+      if current_user.security_level == 2
+        params[:is_visible] = false
+      end
+      if @section.update(section_params)
+       render json: @section
+      else
+        render json: @section.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /sections/1
   def destroy
-    @section.destroy
+    if current_user.security_level == 3
+      @section.destroy
+    end
   end
 
   private
@@ -46,6 +58,6 @@ class SectionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def section_params
-      params.require(:section).permit(:name, :description, :slug, :parent_id, :rank)
+      params.require(:section).permit(:name, :description, :slug, :parent_id, :rank, :is_visible)
     end
 end

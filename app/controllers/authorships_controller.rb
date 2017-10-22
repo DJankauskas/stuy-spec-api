@@ -19,27 +19,33 @@ class AuthorshipsController < ApplicationController
 
   # POST /authorships
   def create
-    @authorship = Authorship.new(authorship_params)
+    if current_user.security_level >= 2
+      @authorship = Authorship.new(authorship_params)
 
-    if @authorship.save
-      render json: @authorship, status: :created, location: @authorship
-    else
-      render json: @authorship.errors, status: :unprocessable_entity
+      if @authorship.save
+        render json: @authorship, status: :created, location: @authorship
+      else
+        render json: @authorship.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /authorships/1
   def update
-    if @authorship.update(authorship_params)
-      render json: @authorship
-    else
-      render json: @authorship.errors, status: :unprocessable_entity
+    if current_user.security_level >= 2
+      if @authorship.update(authorship_params)
+        render json: @authorship
+      else
+        render json: @authorship.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /authorships/1
   def destroy
-    @authorship.destroy
+    if current_user.security_level >= 2
+      @authorship.destroy
+    end
   end
 
   private

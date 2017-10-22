@@ -23,27 +23,33 @@ class UserRolesController < ApplicationController
 
   # POST /user_roles
   def create
-    @user_role = UserRole.new(user_role_params)
+     if current_user.security_level == 3
+      @user_role = UserRole.new(user_role_params)
 
-    if @user_role.save
-      render json: @user_role, status: :created, location: @user_role
-    else
-      render json: @user_role.errors, status: :unprocessable_entity
-    end
+      if @user_role.save
+        render json: @user_role, status: :created, location: @user_role
+      else
+        render json: @user_role.errors, status: :unprocessable_entity
+      end
+     end
   end
 
   # PATCH/PUT /user_roles/1
   def update
-    if @user_role.update(user_role_params)
-      render json: @user_role
-    else
-      render json: @user_role.errors, status: :unprocessable_entity
+    if current_user.security_level == 3
+      if @user_role.update(user_role_params)
+        render json: @user_role
+      else
+        render json: @user_role.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /user_roles/1
   def destroy
-    @user_role.destroy
+    if current_user.security_level == 3
+      @user_role.destroy
+    end
   end
 
   private

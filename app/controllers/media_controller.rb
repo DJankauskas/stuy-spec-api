@@ -15,27 +15,33 @@ class MediaController < ApplicationController
 
   # POST /media
   def create
-    @medium = Medium.new(medium_params)
+    if current_user.security_level >= 2
+      @medium = Medium.new(medium_params)
 
-    if @medium.save
-      render json: @medium, status: :created, location: @medium
-    else
-      render json: @medium.errors, status: :unprocessable_entity
+      if @medium.save
+        render json: @medium, status: :created, location: @medium
+      else
+        render json: @medium.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # PATCH/PUT /media/1
   def update
-    if @medium.update(medium_params)
-      render json: @medium
-    else
-      render json: @medium.errors, status: :unprocessable_entity
+    if current_user.security_level >= 2
+      if @medium.update(medium_params)
+        render json: @medium
+      else
+        render json: @medium.errors, status: :unprocessable_entity
+      end
     end
   end
 
   # DELETE /media/1
   def destroy
-    @medium.destroy
+    if current_user.security_level == 3
+      @medium.destroy
+    end
   end
 
   private
