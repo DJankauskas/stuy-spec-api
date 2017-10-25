@@ -18,7 +18,9 @@ The application is a Rails application, with a Postgres database. Everything is 
 * Run `rails server` to run the server.
 ## Security Specs
 Security is done through security levels, an integer attribute that users have. The three possible values of security levels are: 3 - Administrator, 2 - Spec User(Spec Web content manager), 1 - Viewer. 
+
 Format: <Controller>: <Request> - <Security levels capable of processing request>
+
 * Articles: GET - all, POST - 2,3(however Articles have a new attribute called is_visible which only security level 3 users have access to, PUT - 2,3(same conditions as POST), DELETE - 3
 * Authorships: GET - all, POST - 2,3, PUT - 2,3, DELETE - 2,3
 * Comments: GET - all, POST - 1,2,3,(only their own) PUT - 1,2,3(only their own), DELETE - 1,2(only their own),3(any comment)
