@@ -32,6 +32,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if current_user.id == @user.id or current_user.security_level == 3
+      if current_user.security_level < 3
+        params[:security_level] = 1
+      end
       if @user.update(user_params)
         render json: @user
       else
