@@ -7,6 +7,7 @@ Section.create(
       description: 'The news of Stuyvesant',
       rank: 6,
       is_visible: true,
+      is_featured: true
     },
     {
       name: 'Opinions',
@@ -14,6 +15,7 @@ Section.create(
       description: 'The opinions of Stuyvesant',
       rank: 5,
       is_visible: true,
+      is_featured: true
     },
     {
       name: 'Features',
@@ -21,6 +23,7 @@ Section.create(
       description: 'The features of Stuyvesant',
       rank: 4,
       is_visible: true,
+      is_featured: true
     },
     {
       name: 'Arts & Entertainment',
@@ -28,6 +31,7 @@ Section.create(
       description: 'The A&E of Stuyvesant',
       rank: 3,
       is_visible: true,
+      is_featured: true
     },
     {
       name: 'Humor',
@@ -35,6 +39,7 @@ Section.create(
       description: 'The humor of Stuyvesant',
       rank: 2,
       is_visible: true,
+      is_featured: true
     },
     {
       name: 'Sports',
@@ -42,6 +47,7 @@ Section.create(
       description: 'The sports of Stuyvesant',
       rank: 1,
       is_visible: true,
+      is_featured: true
     },
     {
       name: '10/31 Terror Attack',
@@ -49,6 +55,7 @@ Section.create(
       description: '10/31 Terror Attack',
       rank: 1,
       is_visible: true,
+      is_featured: true
     },
     # {
     #   name: 'Art',
