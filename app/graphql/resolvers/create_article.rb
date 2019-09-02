@@ -46,7 +46,7 @@ class Resolvers::CreateArticle < Resolvers::MutationFunction
           @article.outquotes.build(text: text)
         end
       end
-      Authentication::(ctx) if @article.save
+      Authentication::generate_new_header(ctx) if @article.save
     end
     return @article
   end
